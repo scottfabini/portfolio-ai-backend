@@ -1,0 +1,20 @@
+version: 1
+backend:
+  phases:
+    preBuild:
+      commands:
+        - mvn clean install -DskipTests
+    build:
+      commands:
+        - mvn package -DskipTests
+  artifacts:
+    files:
+      - target/*.jar
+    discard-paths: no
+  cache:
+    paths:
+      - '**/target/**'
+  customRules:
+    - pattern: /api/*
+      target: /index.html
+      status: 200 
