@@ -1,4 +1,13 @@
 version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - echo "Placeholder frontend build phase"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
 backend:
   phases:
     preBuild:
