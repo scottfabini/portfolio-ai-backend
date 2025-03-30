@@ -1,11 +1,16 @@
 version: 1
 frontend:
   phases:
+    preBuild:
+      commands:
+        - echo "Creating placeholder index.html"
+        - mkdir -p public
     build:
       commands:
         - echo "Placeholder frontend build phase"
+        - echo '<html><body><h1>Backend API Server</h1><p>Use /api/todos endpoint to access the API.</p></body></html>' > public/index.html
   artifacts:
-    baseDirectory: /
+    baseDirectory: public
     files:
       - '**/*'
 backend:
@@ -21,10 +26,14 @@ backend:
     postBuild:
       commands:
         - echo "Build completed on $(date)"
+        - echo "Setting up proxy configuration..."
+        - mkdir -p proxy
+        - echo '{"version":"1.0","routes":[{"path":"/api/*","target":{"type":"function"}}]}' > proxy/proxy.json
   artifacts:
     baseDirectory: target
     files:
       - '**/*'
+    appRoot: /
   cache:
     paths:
       - '/root/.m2/**/*'

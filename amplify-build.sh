@@ -32,6 +32,7 @@ cat > target/application-amplify.properties << EOF
 # Application settings
 spring.profiles.active=amplify
 server.port=8080
+server.servlet.context-path=/
 
 # Database settings
 spring.datasource.url=${SPRING_DATASOURCE_URL}
@@ -47,6 +48,12 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 spring.web.cors.allowed-origins=*
 spring.web.cors.allowed-methods=GET,POST,PUT,DELETE,OPTIONS
 spring.web.cors.allowed-headers=*
+EOF
+
+# Create an AWS Elastic Beanstalk configuration
+echo "Creating Procfile for AWS deployment..."
+cat > target/Procfile << EOF
+web: java -jar -Dserver.port=8080 *.jar --spring.config.location=file:./application-amplify.properties
 EOF
 
 # Create a script to run the application
@@ -66,6 +73,10 @@ fi
 echo "Running application: $JAR_FILE"
 java -jar $JAR_FILE --spring.config.location=file:./application-amplify.properties
 EOF
+
+# Copy build artifacts to the expected locations
+mkdir -p target/public
+echo '<html><body><h1>Backend API Server</h1><p>Use /api/todos endpoint to access the API.</p></body></html>' > target/public/index.html
 
 # Make the run script executable
 chmod +x target/run.sh
