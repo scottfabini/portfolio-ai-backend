@@ -19,6 +19,9 @@ backend:
       commands:
         - echo "Preparing build environment..."
         - chmod +x amplify-build.sh
+        - echo "Installing Maven 3.9.6 from Apache archive (dlcdn mirror no longer hosts this version)"
+        - curl -sSL -o /tmp/apache-maven-3.9.6-bin.tar.gz https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+        - tar xzf /tmp/apache-maven-3.9.6-bin.tar.gz -C /tmp
     build:
       commands:
         - echo "Starting build process..."
