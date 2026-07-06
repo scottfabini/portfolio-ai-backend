@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Use the Maven installed in preBuild if present (dlcdn mirror no longer hosts 3.9.6)
-if [ -x /tmp/apache-maven-3.9.6/bin/mvn ]; then
-  export PATH=/tmp/apache-maven-3.9.6/bin:$PATH
-fi
-
 # Display versions
 echo "Java version:"
 java -version
